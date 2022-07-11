@@ -12,7 +12,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -20,8 +24,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -44,6 +48,7 @@ public class CreateNoteActivity extends AppCompatActivity {
     private String selectedColor, selectedImage = "";
     private BottomSheetBehavior bottomSheetBehavior = null;
     private static final int REQUEST_CODE_STORAGE = 1;
+    private String webLink = null;
     private static final int REQUEST_CODE_SELECT_IMAGE = 2;
 
     @Override
@@ -98,9 +103,24 @@ public class CreateNoteActivity extends AppCompatActivity {
             activityCreateNoteBinding.inputNoteSubTitle.setText(selectedNote.getSubTitle());
             activityCreateNoteBinding.textDateTime.setText(selectedNote.getDateTime());
             activityCreateNoteBinding.inputNote.setText(selectedNote.getNoteText());
+            webLink = selectedNote.getWebLink();
+            if (webLink != null && !webLink.isEmpty()) {
+                activityCreateNoteBinding.webUrlTextView.setText(webLink);
+                activityCreateNoteBinding.webLinkLinearLayout.setVisibility(View.VISIBLE);
+            }
             selectedColor = selectedNote.getColor();
             setSubtitleIndicatorColor();
         }
+
+        activityCreateNoteBinding.deleteUrlImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                webLink = null;
+                activityCreateNoteBinding.webUrlTextView.setText("");
+                activityCreateNoteBinding.webLinkLinearLayout.setVisibility(View.GONE);
+
+            }
+        });
     }
 
     private void saveNote() {
@@ -118,7 +138,7 @@ public class CreateNoteActivity extends AppCompatActivity {
                 selectedNote.setNoteText(activityCreateNoteBinding.inputNote.getText().toString());
                 selectedNote.setDateTime(simpleDateFormat.format(new Date()));
                 selectedNote.setImagePath(selectedImage);
-                selectedNote.setWebLink("");
+                selectedNote.setWebLink(webLink);
                 selectedNote.setColor(selectedColor);
 
                 NotesDatabase.databaseWriterExecutor.execute(() -> {
@@ -214,7 +234,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         });
 
 
-        ((CardView) findViewById(R.id.addImageCardLayout)).setOnClickListener(new View.OnClickListener() {
+        ((ImageView) findViewById(R.id.addImageImageView)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (bottomSheetBehavior != null)
@@ -222,6 +242,73 @@ public class CreateNoteActivity extends AppCompatActivity {
                 requestPermission();
             }
         });
+
+
+        ((ImageView) findViewById(R.id.addWebUrlImageImageView)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                showUrlDialog();
+            }
+        });
+
+        ((ImageView) findViewById(R.id.deleteNoteImageView)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                if (selectedNote != null) {
+                    database.notesDao().deleteNote(selectedNote);
+                    finish();
+                } else {
+                    Toast.makeText(CreateNoteActivity.this, "Create a note first", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    private void showUrlDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_link, viewGroup, false);
+        builder.setView(dialogView);
+        AlertDialog alertDialog = builder.create();
+
+        alertDialog.show();
+
+        dialogButtonClickHandle(alertDialog);
+
+    }
+
+    private void dialogButtonClickHandle(AlertDialog alertDialog) {
+        //YES BUTTON
+        alertDialog.findViewById(R.id.alert_dialog_cancel_text_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+
+        //NO BUTTON
+        alertDialog.findViewById(R.id.alert_dialog_add_text_view).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                webLink = ((EditText) alertDialog.findViewById(R.id.alert_dialog_url_edit_text_view)).getText().toString();
+                if (webLink == null || webLink.isEmpty()) {
+                    webLink = null;
+                    Toast.makeText(CreateNoteActivity.this, "Enter URL", Toast.LENGTH_LONG).show();
+                } else if (!Patterns.WEB_URL.matcher(webLink).matches()) {
+                    webLink = null;
+                    Toast.makeText(CreateNoteActivity.this, "Enter valid URL", Toast.LENGTH_LONG).show();
+                } else {
+                    activityCreateNoteBinding.webUrlTextView.setText(webLink);
+                    activityCreateNoteBinding.webLinkLinearLayout.setVisibility(View.VISIBLE);
+                    alertDialog.dismiss();
+                }
+
+            }
+        });
+
+
     }
 
     private void requestPermission() {

@@ -65,54 +65,21 @@
         android:paddingStart="0dp"
         android:paddingEnd="@dimen/_12sdp"
         android:paddingBottom="@dimen/_12sdp"
-        app:layout_constraintBottom_toTopOf="@id/quickAccessLinearLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchlinearlayout" />
 
-    <LinearLayout
-        android:id="@+id/quickAccessLinearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorQuickActionBg"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="@dimen/_15sdp"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-
-        <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="@dimen/_23sdp"
-            android:layout_height="@dimen/_23sdp"
-            android:src="@drawable/add_circle_outline_ic"
-            app:tint="@color/colorIcons" />
-
-        <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="@dimen/_23sdp"
-            android:layout_height="@dimen/_23sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:src="@drawable/image_ic"
-            app:tint="@color/colorIcons" />
-
-        <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="@dimen/_23sdp"
-            android:layout_height="@dimen/_23sdp"
-            android:layout_marginStart="@dimen/_15sdp"
-            android:src="@drawable/web_link_ic"
-            app:tint="@color/colorIcons" />
-
-
-    </LinearLayout>
 
     <ImageView
         android:id="@+id/addNoteImageView"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_width="@dimen/_45sdp"
+        android:layout_height="@dimen/_45sdp"
         android:layout_marginEnd="@dimen/_30sdp"
+        android:layout_marginBottom="@dimen/_30sdp"
         android:background="@drawable/add_ic_bg"
         android:padding="@dimen/_5sdp"
         android:src="@drawable/add_ic"
-        app:layout_constraintBottom_toTopOf="@id/quickAccessLinearLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/quickAccessLinearLayout"
         app:tint="@color/white" />
 
 
