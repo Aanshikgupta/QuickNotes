@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/noteItemLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/_12sdp"
+    android:layout_marginTop="@dimen/_12sdp"
+    android:background="@drawable/note_bg"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:id="@+id/noteItemImageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_4sdp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/note_image_bg"
+        android:src="@mipmap/ic_launcher_round"
+        android:visibility="gone" />
+
+
+    <TextView
+        android:id="@+id/noteItemTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:fontFamily="@font/ubuntu_bold"
+        android:includeFontPadding="false"
+        android:text="Title"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_13ssp" />
+
+    <TextView
+        android:id="@+id/noteItemSubTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_4sdp"
+        android:fontFamily="@font/ubuntu_regular"
+        android:includeFontPadding="false"
+        android:text="SubTitle"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12ssp" />
+
+
+    <TextView
+        android:id="@+id/noteItemDateTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_4sdp"
+        android:fontFamily="@font/ubuntu_regular"
+        android:includeFontPadding="false"
+        android:text="Date time"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_7ssp" />
+
+
+    <TextView
+        android:id="@+id/noteItemNoteText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:fontFamily="@font/ubuntu_regular"
+        android:includeFontPadding="false"
+        android:text="Note"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_10ssp" />
+
+
+</LinearLayout>
